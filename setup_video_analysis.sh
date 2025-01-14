@@ -59,5 +59,13 @@ wget https://raw.githubusercontent.com/AmirMK/GCP_workshop/main/ad_placement_ana
 wget https://raw.githubusercontent.com/AmirMK/GCP_workshop/main/gcp_data_handler.py
 wget https://raw.githubusercontent.com/AmirMK/GCP_workshop/main/job_config.yaml
 
+# Create Artifact Registry repository
+gcloud artifacts repositories create $REPO --repository-format=docker --location=us --description="Docker repository for video analysis"
+
+# Build and push Docker image
+docker build -t $IMAGE_NAME:latest .
+docker tag $IMAGE_NAME:latest us-docker.pkg.dev/$PROJECT_ID/$REPO/$IMAGE_NAME:latest
+docker push us-docker.pkg.dev/$PROJECT_ID/$REPO/$IMAGE_NAME:latest
+
 # Print completion message
 echo "Setup completed successfully."
